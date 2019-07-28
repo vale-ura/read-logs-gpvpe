@@ -12,6 +12,8 @@ const Papa = require('papaparse');
 const fs = require('fs');
 require('colors');
 const voca = require('voca');
+const FileSync = require('lowdb/adapters/FileSync')
+const low = require('lowdb')
 
 const CODIFICATION = "utf8";
 const INITIAL_DATE = new Date('01/01/19').getTime();
@@ -20,6 +22,7 @@ const ACCEPTED_VALUE_COLUMNS = [
     'VISIT'
 ];
 const FILE_LOGS = 'logs';
+const PATH_LOCAL_DB = "db/db.json";
 
 main();
 
@@ -36,7 +39,9 @@ fileMatch: {
 
 */
 
-function main() {
+async function main() {
+
+    const connectionLocalDB = await connectToLocalDB(PATH_LOCAL_DB);
 
     let dto = {
         fileMatch: {
@@ -46,7 +51,9 @@ function main() {
         },
         pathDirectory: FILE_LOGS,
         nameFilesExtracted: null,
-        CODIFICATION
+        CODIFICATION,
+        connectionLocalDB: connectionLocalDB,
+        pathLocalDB: PATH_LOCAL_DB
     }
 
     console.log('Initiated the script'.white.bgGreen);
@@ -94,7 +101,7 @@ async function extractInfoAccordingDTO(params) {
             const csvContent = await readSyncFile(params, nameFile);
             const resultParsedtContent = await parseCsvContent(csvContent);
             const filteredContent = await filterParsedContent(resultParsedtContent.data, params);
-            console.log(filteredContent);
+            persistRowInLocalDB(params, filteredContent);
 
         } catch (error) {
             console.log(`Error extracting information of the file: ${nameFile}`.bgRed.black);
@@ -143,4 +150,26 @@ async function filterParsedContent(parsedContent, params) {
 
     return filteredParsedContent;
 
+}
+
+async function persistRowInLocalDB(params, filterdContent) {
+    let [row] = filterdContent;
+    let [, , user] = row;
+    console.log(`Writing user ${user} async in file`.bgGreen.black, `${params.pathLocalDB}`.bgRed.black);
+    try {
+        await params.connectionLocalDB.set(`${user}`, filterdContent)
+            .write()
+    } catch (error) {
+        console.error(`Error Writing the user ${user}`.bgRed.black);
+        throw error;
+    }
+}
+
+async function connectToLocalDB(pathFile) {
+    const adapterFileSync = initiatedFileSync(pathFile);
+    return await low(adapterFileSync);
+}
+
+function initiatedFileSync(pathFile) {
+    return new FileSync(pathFile);
 }
