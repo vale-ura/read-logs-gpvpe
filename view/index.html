@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+    <title>Presentatio DATA</title>
+</head>
+
+<body>
+
+    <canvas id="ctx" >
+
+    </canvas>
+    <script>
+        fetch('http://localhost:3000/db').then(res => {
+            return res.json();
+        }).then(data => {
+            
+            const ctx = document.getElementById("ctx").getContext('2d');
+            const myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data,
+                options: {}
+            });
+        })
+
+    </script>
+</body>
+
+</html>
