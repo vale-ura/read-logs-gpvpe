@@ -153,16 +153,44 @@ async function filterParsedContent(parsedContent, params) {
 }
 
 async function persistRowInLocalDB(params, filterdContent) {
-    let [row] = filterdContent;
-    let [, , user] = row;
+    let [firstRow] = filterdContent;
+    let [, , user] = firstRow;
     console.log(`Writing user ${user} async in file`.bgGreen.black, `${params.pathLocalDB}`.bgRed.black);
     try {
-        await params.connectionLocalDB.set(`${user}`, filterdContent)
+        await params.connectionLocalDB.set(`${user}`, await onCreateDataStruct(params, filterdContent))
             .write()
     } catch (error) {
         console.error(`Error Writing the user ${user}`.bgRed.black);
         throw error;
     }
+}
+
+async function onCreateDataStruct(params, filteredContent) {
+    const setCode = new Set();
+    const newStructContent = await filteredContent.map(row => {
+        if (!existsElementOnMapper(row, setCode)) {
+            addOnStruct(row, setCode);
+            const [date, typeOfTransaction, user, transaction] = row;
+            return {
+                date,
+                typeOfTransaction,
+                user,
+                transaction
+            }
+        }
+    }).filter(row => row !== undefined);
+
+    return newStructContent;
+}
+
+function existsElementOnMapper(element, setStruct) {
+    const [, , , codeTransaction] = element;
+    return setStruct.has(codeTransaction);
+}
+
+function addOnStruct(element, setStruct) {
+    const [, , , codeTransaction] = element;
+    setStruct.add(codeTransaction);
 }
 
 async function connectToLocalDB(pathFile) {
