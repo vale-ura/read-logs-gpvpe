@@ -16,13 +16,15 @@ const FileSync = require('lowdb/adapters/FileSync')
 const low = require('lowdb')
 
 const CODIFICATION = "utf8";
-const INITIAL_DATE = new Date('01/01/19').getTime();
-const FINAL_DATE = Date.now();
+const INITIAL_DATE = newToLocaleString('01/01/19');
+const FINAL_DATE = newToLocaleString('01/02/19');
 const ACCEPTED_VALUE_COLUMNS = [
     'VISIT'
 ];
 const FILE_LOGS = 'logs';
 const PATH_LOCAL_DB = "db/db.json";
+const LOCATE = 'pt-BR';
+const TIMEZONE = "America/Sao_Paulo";
 
 main();
 
@@ -81,13 +83,13 @@ async function readSyncDirectory(params) {
 }
 
 async function filterFilesNames(params) {
-    console.log(`Filtering the files inside directory`.bgGreen.black)
+    console.log(`Filtering the files inside directory`.bgGreen.white)
     params.nameFilesExtracted = await params.nameFilesExtracted.filter(nameFile => {
-        console.log(`Checking file: ${nameFile}`.bgBlue.black);
+        console.log(`Checking file: ${nameFile}`.bgBlue.white);
         const nameFileWithoutDotLog = voca.trim(voca.replace(nameFile, ".log", ""));
         return voca.isNumeric(nameFileWithoutDotLog);
     });
-    console.log(`Filtered files: ${params.nameFilesExtracted}`.bgGreen.black);
+    console.log(`Filtered files: ${params.nameFilesExtracted}`.bgGreen.white);
 
     return params;
 }
@@ -101,6 +103,7 @@ async function extractInfoAccordingDTO(params) {
             const csvContent = await readSyncFile(params, nameFile);
             const resultParsedtContent = await parseCsvContent(csvContent);
             const filteredContent = await filterParsedContent(resultParsedtContent.data, params);
+            if(filteredContent.length === 0) return;
             persistRowInLocalDB(params, filteredContent);
 
         } catch (error) {
@@ -139,7 +142,7 @@ async function parseCsvContent(csvContent) {
 async function filterParsedContent(parsedContent, params) {
     const filteredParsedContent = await parsedContent.filter(line => {
         const [date, typeOfTransaction] = line; // Extracts the first two columns that match the date and transaction type of the row
-        const timeStampCurrentDate = new Date(date).getTime();
+        const timeStampCurrentDate = newToLocaleString(date);
         const currentTypeOfTransaction = voca.upperCase(voca.trim(typeOfTransaction));
 
         // Compare the initial Date, final Date with the date of the current line
@@ -164,33 +167,50 @@ async function persistRowInLocalDB(params, filterdContent) {
         throw error;
     }
 }
-
+/**
+ * 
+ * @param {*} params 
+ * @param {*} filteredContent read file content
+ */
 async function onCreateDataStruct(params, filteredContent) {
-    const setCode = new Set();
+    const mapperCode = new Map(); //key, value
     const newStructContent = await filteredContent.map(row => {
-        if (!existsElementOnMapper(row, setCode)) {
-            addOnStruct(row, setCode);
-            const [date, typeOfTransaction, user, transaction] = row;
+        const [date, typeOfTransaction, user, transaction] = row;
+        if (!existsElementOnMapper(row, mapperCode)) {
+            addOnStruct(row, mapperCode);
             return {
                 date,
                 typeOfTransaction,
                 user,
                 transaction
             }
+
         }
     }).filter(row => row !== undefined);
+
+    console.log(newStructContent);
+
+    newStructContent.forEach(row => {
+        row.counter = mapperCode.get(row.transaction).counter;
+    })
 
     return newStructContent;
 }
 
 function existsElementOnMapper(element, setStruct) {
     const [, , , codeTransaction] = element;
-    return setStruct.has(codeTransaction);
+    const codeInStruct = setStruct.get(codeTransaction);
+    if(codeInStruct){
+        setStruct.set(codeTransaction, { counter: ++codeInStruct.counter});
+        return true;
+    } else {
+        return codeInStruct !== undefined;
+    }
 }
 
 function addOnStruct(element, setStruct) {
     const [, , , codeTransaction] = element;
-    setStruct.add(codeTransaction);
+    setStruct.set(codeTransaction, { counter: 1 });
 }
 
 async function connectToLocalDB(pathFile) {
@@ -200,4 +220,12 @@ async function connectToLocalDB(pathFile) {
 
 function initiatedFileSync(pathFile) {
     return new FileSync(pathFile);
+}
+
+function newToLocaleString(date){
+    
+    let timeStampDate = Date.parse(new Date(date)
+    .toLocaleDateString('pt-BR', {timeZone: "America/Sao_Paulo"}))
+    return timeStampDate;
+
 }

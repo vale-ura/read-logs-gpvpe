@@ -17,6 +17,7 @@
     "eslint": "^6.1.0",
     "express": "^4.17.1",
     "lowdb": "^1.0.0",
+    "moment": "^2.24.0",
     "nodemon": "^1.19.1",
     "papaparse": "^5.0.1",
     "voca": "^1.4.0"
