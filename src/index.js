@@ -16,8 +16,8 @@ const FileSync = require('lowdb/adapters/FileSync')
 const low = require('lowdb')
 
 const CODIFICATION = "utf8";
-const INITIAL_DATE = newToLocaleString('01/01/19');
-const FINAL_DATE = newToLocaleString('01/02/19');
+const INITIAL_DATE = newToLocaleString('05/12/2015');
+const FINAL_DATE = Date.now();
 const ACCEPTED_VALUE_COLUMNS = [
     'VISIT'
 ];
@@ -224,8 +224,15 @@ function initiatedFileSync(pathFile) {
 
 function newToLocaleString(date){
     
-    let timeStampDate = Date.parse(new Date(date)
-    .toLocaleDateString('pt-BR', {timeZone: "America/Sao_Paulo"}))
+    const timeStampDate = new Date(swapDayAndMonth(date)).getTime();
     return timeStampDate;
 
+}
+
+function swapDayAndMonth(date) {
+    const dayAndMonth = date.substring(0,date.indexOf('/',3)); // Extract the {dd/mm} from {dd/mm/yyyy hh:mm:ss}
+    const dayInEnUS = dayAndMonth.substring(0,date.indexOf('/')); // Extract the {dd} from {dd/mm}
+    const monthInEnUS = dayAndMonth.substring(date.indexOf('/')+1);
+
+    return `${monthInEnUS}/${dayInEnUS}${date.substring(date.indexOf('/',3))}`
 }

@@ -1,0 +1,314 @@
+{
+  "01495929": [
+    {
+      "date": "05/12/2015 21:06:54",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "G_RTUTIL_A",
+      "counter": 3159
+    },
+    {
+      "date": "05/12/2015 21:07:14",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "REL_TUR_UT",
+      "counter": 676
+    },
+    {
+      "date": "10/12/2015 21:44:07",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "STOPS_UTL3",
+      "counter": 4917
+    },
+    {
+      "date": "04/03/2016 03:39:43",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "STP0_SUP  ",
+      "counter": 2227
+    },
+    {
+      "date": "24/03/2016 05:53:24",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "REL_TURNO ",
+      "counter": 10
+    },
+    {
+      "date": "27/03/2016 04:37:21",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "STOPS_UT18",
+      "counter": 16
+    },
+    {
+      "date": "27/03/2016 04:38:00",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "H_05_OPRU ",
+      "counter": 1
+    },
+    {
+      "date": "27/03/2016 04:38:37",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "C_1_TV    ",
+      "counter": 2
+    },
+    {
+      "date": "27/03/2016 04:38:37",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "PL_R1TP   ",
+      "counter": 1
+    },
+    {
+      "date": "27/03/2016 04:39:14",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "A_5_placa ",
+      "counter": 1
+    },
+    {
+      "date": "09/04/2016 04:44:38",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "I_BYPASS_C",
+      "counter": 55
+    },
+    {
+      "date": "19/09/2016 01:47:54",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "G_RTUTIL  ",
+      "counter": 215
+    },
+    {
+      "date": "10/10/2016 00:48:53",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "STOPS_UTL1",
+      "counter": 45
+    },
+    {
+      "date": "14/02/2017 03:05:50",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "STOPS_UTL4",
+      "counter": 64
+    },
+    {
+      "date": "14/02/2017 03:16:48",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "HOR_SUP   ",
+      "counter": 231
+    },
+    {
+      "date": "03/03/2017 04:40:10",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "real3     ",
+      "counter": 2
+    },
+    {
+      "date": "15/03/2017 02:37:08",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "OPP_PLA1  ",
+      "counter": 1
+    },
+    {
+      "date": "15/03/2017 02:39:03",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "A_7_Reprt ",
+      "counter": 1
+    },
+    {
+      "date": "22/03/2017 02:01:23",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "C_3_STOP  ",
+      "counter": 1
+    },
+    {
+      "date": "30/03/2017 05:28:25",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "H_REGTUR  ",
+      "counter": 17
+    },
+    {
+      "date": "06/09/2017 00:00:26",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "STOPS_UT16",
+      "counter": 1
+    },
+    {
+      "date": "10/09/2017 19:04:12",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "STP1_SUP  ",
+      "counter": 10
+    },
+    {
+      "date": "18/09/2017 00:41:54",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "I_7ANALIS ",
+      "counter": 1
+    },
+    {
+      "date": "25/10/2017 01:01:07",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "I_EMER    ",
+      "counter": 3
+    },
+    {
+      "date": "25/01/2018 00:48:03",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "M_USMTBFS ",
+      "counter": 1
+    },
+    {
+      "date": "17/01/2019 07:16:55",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "real1     ",
+      "counter": 2
+    },
+    {
+      "date": "17/01/2019 07:17:31",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "GRAF_PP   ",
+      "counter": 1
+    },
+    {
+      "date": "17/01/2019 07:17:53",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "STOPS_LIST",
+      "counter": 1
+    },
+    {
+      "date": "17/01/2019 07:18:01",
+      "typeOfTransaction": "VISIT",
+      "user": "01495929",
+      "transaction": "STOPS_MACR",
+      "counter": 1
+    }
+  ],
+  "01514453": [
+    {
+      "date": "21/12/2015 15:03:26",
+      "typeOfTransaction": "VISIT",
+      "user": "01514453",
+      "transaction": "PL_R1TP   ",
+      "counter": 704
+    },
+    {
+      "date": "05/05/2016 15:57:39",
+      "typeOfTransaction": "VISIT",
+      "user": "01514453",
+      "transaction": "H_07_OPRS ",
+      "counter": 10
+    },
+    {
+      "date": "09/06/2016 13:40:58",
+      "typeOfTransaction": "VISIT",
+      "user": "01514453",
+      "transaction": "H_08_CMES ",
+      "counter": 1100
+    },
+    {
+      "date": "01/07/2016 11:19:17",
+      "typeOfTransaction": "VISIT",
+      "user": "01514453",
+      "transaction": "Y_26_Trend",
+      "counter": 3
+    },
+    {
+      "date": "12/07/2016 08:07:51",
+      "typeOfTransaction": "VISIT",
+      "user": "01514453",
+      "transaction": "A_5_placa ",
+      "counter": 4
+    },
+    {
+      "date": "12/07/2016 08:18:30",
+      "typeOfTransaction": "VISIT",
+      "user": "01514453",
+      "transaction": "real1     ",
+      "counter": 4
+    },
+    {
+      "date": "15/08/2016 09:41:01",
+      "typeOfTransaction": "VISIT",
+      "user": "01514453",
+      "transaction": "C_5_PPr   ",
+      "counter": 1
+    },
+    {
+      "date": "31/08/2016 14:27:52",
+      "typeOfTransaction": "VISIT",
+      "user": "01514453",
+      "transaction": "H_13_CP   ",
+      "counter": 6
+    },
+    {
+      "date": "17/07/2017 16:37:52",
+      "typeOfTransaction": "VISIT",
+      "user": "01514453",
+      "transaction": "D_1_Ind   ",
+      "counter": 2
+    },
+    {
+      "date": "18/09/2017 15:58:23",
+      "typeOfTransaction": "VISIT",
+      "user": "01514453",
+      "transaction": "H_09_MP   ",
+      "counter": 2
+    },
+    {
+      "date": "24/10/2017 16:16:12",
+      "typeOfTransaction": "VISIT",
+      "user": "01514453",
+      "transaction": "H_05_OPRP ",
+      "counter": 2
+    },
+    {
+      "date": "10/11/2017 08:24:03",
+      "typeOfTransaction": "VISIT",
+      "user": "01514453",
+      "transaction": "OPP_PLA1  ",
+      "counter": 1
+    },
+    {
+      "date": "28/12/2017 11:13:05",
+      "typeOfTransaction": "VISIT",
+      "user": "01514453",
+      "transaction": "H_05_OPRU ",
+      "counter": 20
+    },
+    {
+      "date": "26/01/2018 08:56:34",
+      "typeOfTransaction": "VISIT",
+      "user": "01514453",
+      "transaction": "",
+      "counter": 5
+    },
+    {
+      "date": "24/10/2018 10:05:09",
+      "typeOfTransaction": "VISIT",
+      "user": "01514453",
+      "transaction": "A_8_Plan  ",
+      "counter": 1
+    }
+  ]
+}
