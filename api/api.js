@@ -42,7 +42,6 @@ async function onCreateDataStruct(...db) {
     // console.log(dbNames);
     const allUsersData = [];
     const allPages = [];
-    const nameCodePages = []
 
     Object.keys(dbExtractServer).map(Key => dbExtractServer[Key]).forEach((valueOfExtractedObject) => {
         allUsersData.push(...valueOfExtractedObject);
@@ -51,34 +50,41 @@ async function onCreateDataStruct(...db) {
     Object.keys(dbNames).map(Key => dbNames[Key]).forEach((valueOfExtractedObject) => {
         allPages.push(...valueOfExtractedObject);
     })
-
-
-    // map.set(key,value);
+    // Construction map.set(key,value);
     let map = new Map();
     allUsersData.forEach(log => {
         const hasInMap = map.has(log.transaction); //hasInMap
         let actualLog = undefined;
-        if(hasInMap){ //exist in map
+        if (hasInMap) { //exist in map
             actualLog = map.get(log.transaction); //
             actualLog.counter = Number(actualLog.counter) + Number(log.counter); // STR + NUMBER NAN
         }
         map.set(log.transaction, actualLog ? actualLog : log);
-    
+
     })
-    console.log(map);
-    
-    
-    // console.log(map);
-    /*     allUsersData.map(log => {
+    allUsersData.map(log => {
         const page = allPages.find(page => page.Code.trim() === log.transaction.trim());
-        if(!page)return;
+        if (!page) return;
         log.Description = page.Description;
         return log;
-    }).filter(log => log !== undefined); */
+    }).filter(log => log !== undefined);
+
+    
     /* let result = Array.from(map.values());
     fs.writeFileSync('db/pageAcess.txt',result.toString()); */
-    return Array.from(map.values());
 
+    let arayUnique = Array.from(map.values());
+
+    return arayUnique.sort((previous, next) => {
+        if (previous.counter > next.counter) {
+            return -1;
+        }
+        if (previous.counter < next.counter) {
+            return 1;
+        } else
+            return 0;
+
+    })
 }
 
 

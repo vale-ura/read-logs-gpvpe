@@ -112,7 +112,7 @@
         {"Code": "I_BYPASS","Description": "Bypass da Prensa de Rolos(Adm)"},
         {"Code": "I_BYPASS_C","Description": "Bypass da Prensa de rolos"},
         {"Code": "Cad_Sup_P","Description": "Cadastro de Supervisores (Pendências)"},
-        {"Code": "CFGT_UTI","Description": "Configuração dos Indicadores do Registro de Turno de UtilidadesConfiguração dos Indicadores do Registro de Turno de Utilidades"},
+        {"Code": "CFGT_UTI","Description": "Configuração dos Indicadores do Registro de Turno de Utilidades"},
         {"Code": "CFG_TURNO","Description": "Configuração dos Indicadores do Registro de Turno"},
         {"Code": "CFME","Description": "Configuração dos Motivos do Uso da Emergência"},
         {"Code": "M_ESCALA","Description": "Escala de Turmas"},

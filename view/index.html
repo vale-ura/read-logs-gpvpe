@@ -20,14 +20,11 @@
                 });
                 return extractField;
             } else if (local === 2) {
-                data.forEach((key) => {
-                    if (!extractField.includes(key['counter']))
-                        extractField.push(key['counter'])
-                });
+                        extractField.push(data['counter'])
                 return extractField;
             } else {
                 data.forEach((key) => {
-                    extractField.push(key['transaction']);
+                    extractField.push(key['Description']);
                 });
                 return extractField;
             }
@@ -43,7 +40,7 @@
             const myBarChart = new Chart(ctx, {
                 type: 'horizontalBar',
                 data: {
-                    labels: extractFields(data, 3),
+                    labels: extractFields(data),
                     datasets: [{
                         label: extractFields(data, 2),
                         data: extractFields(data, 1),
@@ -79,7 +76,6 @@
             }
             return arr;
         }
-
 
     </script>
 </body>
