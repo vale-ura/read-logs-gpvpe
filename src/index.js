@@ -16,15 +16,15 @@ const FileSync = require('lowdb/adapters/FileSync')
 const low = require('lowdb')
 
 const CODIFICATION = "utf8";
+const EXPRESSION_TO_MATCH_NAME_FILES = '(?:(((?:^[0-9]+)[uUSsi])|^bct)(?:[0-9]+)|(?:^[0-9]+))[\\s]?(.log)';
 const INITIAL_DATE = newToLocaleString('01/01/2019');
 const FINAL_DATE = Date.now();
 const ACCEPTED_VALUE_COLUMNS = [
     'VISIT'
 ];
+////brvix5valeas222/log
 const FILE_LOGS = `${process.argv[2]}`;
 const PATH_LOCAL_DB = 'db/db.json';
-const LOCATE = 'pt-BR';
-const TIMEZONE = "America/Sao_Paulo";
 
 main();
 
@@ -46,11 +46,11 @@ async function main() {
     let connectionLocalDB = {};
 
     try {
-        connectionLocalDB = await connectToLocalDB(PATH_LOCAL_DB);    
+        connectionLocalDB = await connectToLocalDB(PATH_LOCAL_DB);
     } catch (error) {
         console.error(error);
     }
-    
+
 
     let dto = {
         fileMatch: {
@@ -62,7 +62,8 @@ async function main() {
         nameFilesExtracted: null,
         CODIFICATION,
         connectionLocalDB: connectionLocalDB,
-        pathLocalDB: PATH_LOCAL_DB
+        pathLocalDB: PATH_LOCAL_DB,
+        EXPRESSION_TO_MATCH_NAME_FILES
     }
 
     console.log('Initiated the script'.white.bgGreen);
@@ -92,11 +93,9 @@ async function readSyncDirectory(params) {
 
 async function filterFilesNames(params) {
     console.log(`Filtering the files inside directory`.bgGreen.white)
-    params.nameFilesExtracted = await params.nameFilesExtracted.filter(nameFile => {
-        console.log(`Checking file: ${nameFile}`.bgBlue.white);
-        const nameFileWithoutDotLog = voca.trim(voca.replace(nameFile, ".log", ""));
-        return voca.isNumeric(nameFileWithoutDotLog);
-    });
+
+    const regexToMatchLogFilesUser = new RegExp(params.EXPRESSION_TO_MATCH_NAME_FILES);
+    params.nameFilesExtracted = await params.nameFilesExtracted.filter(nameFile => nameFile.match(regexToMatchLogFilesUser) !== null);
     console.log(`Filtered files: ${params.nameFilesExtracted}`.bgGreen.white);
 
     return params;
@@ -111,7 +110,7 @@ async function extractInfoAccordingDTO(params) {
             const csvContent = await readSyncFile(params, nameFile);
             const resultParsedtContent = await parseCsvContent(csvContent);
             const filteredContent = await filterParsedContent(resultParsedtContent.data, params);
-            if(filteredContent.length === 0) return;
+            if (filteredContent.length === 0) return;
             persistRowInLocalDB(params, filteredContent);
 
         } catch (error) {
@@ -208,8 +207,8 @@ async function onCreateDataStruct(params, filteredContent) {
 function existsElementOnMapper(element, setStruct) {
     const [, , , codeTransaction] = element;
     const codeInStruct = setStruct.get(codeTransaction);
-    if(codeInStruct){
-        setStruct.set(codeTransaction, { counter: ++codeInStruct.counter});
+    if (codeInStruct) {
+        setStruct.set(codeTransaction, { counter: ++codeInStruct.counter });
         return true;
     } else {
         return codeInStruct !== undefined;
@@ -230,17 +229,17 @@ function initiatedFileSync(pathFile) {
     return new FileSync(pathFile);
 }
 
-function newToLocaleString(date){
-    
+function newToLocaleString(date) {
+
     const timeStampDate = new Date(swapDayAndMonth(date)).getTime();
     return timeStampDate;
 
 }
 
 function swapDayAndMonth(date) {
-    const dayAndMonth = date.substring(0,date.indexOf('/',3)); // Extract the {dd/mm} from {dd/mm/yyyy hh:mm:ss}
-    const dayInEnUS = dayAndMonth.substring(0,date.indexOf('/')); // Extract the {dd} from {dd/mm}
-    const monthInEnUS = dayAndMonth.substring(date.indexOf('/')+1);
+    const dayAndMonth = date.substring(0, date.indexOf('/', 3)); // Extract the {dd/mm} from {dd/mm/yyyy hh:mm:ss}
+    const dayInEnUS = dayAndMonth.substring(0, date.indexOf('/')); // Extract the {dd} from {dd/mm}
+    const monthInEnUS = dayAndMonth.substring(date.indexOf('/') + 1);
 
-    return `${monthInEnUS}/${dayInEnUS}${date.substring(date.indexOf('/',3))}`
+    return `${monthInEnUS}/${dayInEnUS}${date.substring(date.indexOf('/', 3))}`
 }
