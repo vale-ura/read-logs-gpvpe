@@ -16,13 +16,13 @@ const FileSync = require('lowdb/adapters/FileSync')
 const low = require('lowdb')
 
 const CODIFICATION = "utf8";
-const INITIAL_DATE = newToLocaleString('05/12/2015');
+const INITIAL_DATE = newToLocaleString('01/01/2019');
 const FINAL_DATE = Date.now();
 const ACCEPTED_VALUE_COLUMNS = [
     'VISIT'
 ];
-const FILE_LOGS = 'logs';
-const PATH_LOCAL_DB = "db/db.json";
+const FILE_LOGS = `${process.argv[2]}`;
+const PATH_LOCAL_DB = 'db/db.json';
 const LOCATE = 'pt-BR';
 const TIMEZONE = "America/Sao_Paulo";
 
@@ -43,7 +43,14 @@ fileMatch: {
 
 async function main() {
 
-    const connectionLocalDB = await connectToLocalDB(PATH_LOCAL_DB);
+    let connectionLocalDB = {};
+
+    try {
+        connectionLocalDB = await connectToLocalDB(PATH_LOCAL_DB);    
+    } catch (error) {
+        console.error(error);
+    }
+    
 
     let dto = {
         fileMatch: {
@@ -73,6 +80,7 @@ async function readSyncDirectory(params) {
     try {
         // Verify the options in future
         dir = await fs.readdirSync(params.pathDirectory);
+        console.log(...dir);
     } catch (error) {
         console.error(`Error reading directory ${params.pathDirectory}`.bgRed.black);
         throw error;
