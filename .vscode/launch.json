@@ -7,7 +7,14 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Launch API",
+            "program": "${workspaceFolder}/app.js"
+        },
+
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch SCRIPT",
             "program": "${workspaceFolder}/src/index.js"
         }
     ]

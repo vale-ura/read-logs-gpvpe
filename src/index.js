@@ -1,13 +1,3 @@
-/**
- * The Program get directory, interate inside the all .log files (number names) and extract the information 
- * with the params.
- * 
- * Params accepted by program:
- * @ The date of considered registers
- * @ The name of the elements accepted
- * 
- */
-
 const Papa = require('papaparse');
 const fs = require('fs');
 require('colors');

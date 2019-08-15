@@ -1,5 +1,5 @@
 {
-    "Páginas": [
+    "Pages": [
         {"Code": "3_CHARS","Description": "Buscador de Características"},
         {"Code": "8_ORDER","Description": "Buscador de Embarques"},    
         {"Code": "5_CLIENT","Description": "Buscador de Empresas"},    
