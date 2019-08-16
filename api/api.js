@@ -40,7 +40,7 @@ async function onGenerateReport(dbParsed) {
 
     console.log(reportContentStruct);
 
-    await report.generateReport({ header, content: reportContentStruct, sheet: "Pages report of the Gpv pelletizing", outputFile: "excel.xlsx"});
+    await report.generateReport({ header, content: reportContentStruct, sheet: "Pages report of the Gpv pelletizing", outputFile: "output-files/pages.xlsx"});
 }
 
 async function consolidateDataAndCreateDataStruct(dbExtractServer, dbNames) {
