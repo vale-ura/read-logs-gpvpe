@@ -24,7 +24,6 @@ app.get('/', async (req, res) => {
     res.render('index.html')
 })
 
-
 /**
  * 
  * @param  {...any} db 
@@ -53,25 +52,23 @@ async function onCreateDataStruct(...db) {
     // Construction map.set(key,value);
     let map = new Map();
     allUsersData.forEach(log => {
+        log.transaction = log.transaction.trim();
         const hasInMap = map.has(log.transaction); //hasInMap
         let actualLog = undefined;
         if (hasInMap) { //exist in map
             actualLog = map.get(log.transaction); //
             actualLog.counter = Number(actualLog.counter) + Number(log.counter); // STR + NUMBER NAN
         }
+        if (!(log.transaction !== "" && log.transaction !== undefined)) return;
         map.set(log.transaction, actualLog ? actualLog : log);
 
     })
-    allUsersData.map(log => {
-        const page = allPages.find(page => page.Code.trim() === log.transaction.trim());
-        if (!page) return;
-        log.Description = page.Description;
-        return log;
-    }).filter(log => log !== undefined);
 
-    
-    /* let result = Array.from(map.values());
-    fs.writeFileSync('db/pageAcess.txt',result.toString()); */
+    allPages.forEach(page => {
+        let correspondingLog = map.get(page.Code);
+        if (!correspondingLog) return;
+        correspondingLog.Description = page.Description;
+    })
 
     let arayUnique = Array.from(map.values());
 
@@ -83,10 +80,8 @@ async function onCreateDataStruct(...db) {
             return 1;
         } else
             return 0;
-
     })
 }
-
 
 async function readAndParse(file) {
     const rawdata = await fs.readFileSync(file);
