@@ -10,12 +10,17 @@
             "name": "Launch API",
             "program": "${workspaceFolder}/api/api.js"
         },
-
         {
             "type": "node",
             "request": "launch",
             "name": "Launch SCRIPT",
             "program": "${workspaceFolder}/src/index.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Report",
+            "program": "${workspaceFolder}/api/report.js"
         }
     ]
 }
