@@ -10,74 +10,80 @@
 </head>
 
 <body>
-    <canvas id="ctx" height="5000"></canvas>
-    <script>
-        function extractFields(data, local) {
-            let extractField = [];
-            if (local === 1) {
-                data.forEach((key) => {
-                    extractField.push(key['counter']);
-                });
-                return extractField;
-            } else if (local === 2) {
-                        extractField.push(data['counter'])
-                return extractField;
-            } else {
-                data.forEach((key) => {
-                    extractField.push(key['Description']);
-                });
-                return extractField;
-            }
+    <div class="container">
+        <div class="chart-container">
+            <canvas id="mainGraph" height="250" width="550" style="display: block; width: 500px; height:250px"></canvas>
+        </div>
 
-        }
-        fetch('http://localhost:3000/db').then(res => {
-            return res.json();
-        }).then(data => {
-            console.log(data);
-            const ctx = document.getElementById("ctx").getContext('2d');
-            console.log(Chart.defaults.scale.ticks);
-            Chart.defaults.scale.beginAtZero = true;
-            const myBarChart = new Chart(ctx, {
-                type: 'horizontalBar',
-                data: {
-                    labels: extractFields(data),
-                    datasets: [{
-                        label: extractFields(data, 2),
-                        data: extractFields(data, 1),
-                        backgroundColor: random_rgba(data.length),
-                        borderWidth: 2,
-                        borderColor: '#777',
-                    }]
-                },
-                options: {
-                    title: {
-                        display: true,
-                        text: 'Gráfico de uso de Telas',
-                        fontSize: 25
-                    },
-                    legend: {
-                        display: false,
-                    },
-                    scales: {
-                        xAxes: [{
-                            stacked: true
-                        }]
-                    }
-
+        <script>
+            function extractFields(data, local, initSlice, finalSlice) {
+                let extractField = [];
+                if (local === 1) {
+                    data.slice(initSlice, finalSlice).forEach((key) => {
+                        extractField.push(key['counter']);
+                    });
+                    return extractField;
+                } else if (local === 2) {
+                    extractField.push(data['counter'])
+                    return extractField;
+                } else if (local == 3) {
+                    data.slice(initSlice, finalSlice).forEach((key) => {
+                        extractField.push(key['Description']);
+                    });
+                    return extractField;
                 }
-            });
-        })
 
-        function random_rgba(l) {
-            let arr = [];
-            for (let index = 0; index < l; index++) {
-                var o = Math.round, r = Math.random, s = 255;
-                arr =  [...arr,'rgba(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ',' + r().toFixed(1) + ')'];
             }
-            return arr;
-        }
+            fetch('http://localhost:3000/db').then(res => {
+                return res.json();
+            }).then(logData => {
+                console.log(logData);
+                const ctx = document.getElementById("mainGraph").getContext('2d');
+                console.log(Chart.defaults.scale.ticks);
+                const myBarChart = new Chart(ctx, {
+                                    
+                    type: 'bar',    
+                    data: {
+                        labels: extractFields(logData, 3, 0, 36),
+                        datasets: [{
+                            label: extractFields(logData, 2, 0, 36),
+                            data: extractFields(logData, 1, 0, 36),
+                            backgroundColor: random_rgba(logData.length),
+                            borderWidth: 2,
+                            borderColor: '#777',
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Número de Acessos por Páginas (Superior a 500)',
+                            fontSize: 35
+                        },
+                        legend: {
+                            display: false,
+                        },
+                        scales: {
+                            xAxes: [{
+                                stacked: true
+                            }],
+                            yAxes: [{
+                                stacked: true
+                            }]
+                        }
+                    }
+                });
+            })
 
-    </script>
+            function random_rgba(l) {
+                let arr = [];
+                for (let index = 0; index < l; index++) {
+                    var o = Math.round, r = Math.random, s = 255;
+                    arr = [...arr, 'rgba(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ',' + r().toFixed(1) + ')'];
+                }
+                return arr;
+            }
+
+        </script>
 </body>
 
 </html>
