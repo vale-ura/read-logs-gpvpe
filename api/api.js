@@ -9,6 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const DB_EXTRACTED_SERVER = 'db/db.json';
 const DB_NAMES = 'db/dbNames.json';
+const OUTPUT_REPORT = 'output-files/pages.xlsx';
 
 app.set('views', __dirname + '/../view');
 app.engine('html', ejs.renderFile);
@@ -20,8 +21,9 @@ app.get('/db', async (req, res) => {
 
 app.get('/report', async (req, res) => {
     const dbParsed = await consolidateDataAndCreateDataStruct(DB_EXTRACTED_SERVER, DB_NAMES);
-    const report = await onGenerateReport(dbParsed)
-    res.json(report);
+    const report = await onGenerateReport(dbParsed);
+    console.log(__dirname, __filename);
+    res.sendFile(report, {root: process.cwd()});
 })
 
 app.get('/', async (req, res) => {
@@ -40,7 +42,8 @@ async function onGenerateReport(dbParsed) {
 
     console.log(reportContentStruct);
 
-    await report.generateReport({ header, content: reportContentStruct, sheet: "Pages report of the Gpv pelletizing", outputFile: "output-files/pages.xlsx"});
+    await report.generateReport({ header, content: reportContentStruct, sheet: "Pages report of the Gpv pelletizing", outputFile: OUTPUT_REPORT});
+    return OUTPUT_REPORT;
 }
 
 async function consolidateDataAndCreateDataStruct(dbExtractServer, dbNames) {

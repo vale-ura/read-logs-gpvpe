@@ -15,7 +15,19 @@
             <canvas id="mainGraph" height="250" width="550" style="display: block; width: 500px; height:250px"></canvas>
         </div>
 
+        <button onclick="onDownloadReport()"> Download Report </button>
+
         <script>
+            function onDownloadReport() {
+                const endPointReport = '/report';
+
+                try {
+                    window.location.assign(endPointReport);
+                } catch (error) {
+                    alert(`Problem to download the report of the endpoint: ${endPointReport}`)
+                }
+            }
+
             function extractFields(data, local, initSlice, finalSlice) {
                 let extractField = [];
                 if (local === 1) {
@@ -41,8 +53,8 @@
                 const ctx = document.getElementById("mainGraph").getContext('2d');
                 console.log(Chart.defaults.scale.ticks);
                 const myBarChart = new Chart(ctx, {
-                                    
-                    type: 'bar',    
+
+                    type: 'bar',
                     data: {
                         labels: extractFields(logData, 3, 0, 36),
                         datasets: [{

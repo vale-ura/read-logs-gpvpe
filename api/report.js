@@ -31,7 +31,7 @@ async function generateReport(params) {
 
     params.workbookClass = new xl.Workbook();
 
-    Promise.resolve(params)
+    return Promise.resolve(params)
         .then(createNewSheet)
         .then(createCellHeader)
         .then(createCellContent)
