@@ -10,92 +10,126 @@
 </head>
 
 <body>
-    <div class="container">
+
+    <div class="container" style="padding-top: 100px;">
         <div class="chart-container">
-            <canvas id="mainGraph" height="250" width="550" style="display: block; width: 500px; height:250px"></canvas>
+            <canvas id="mainGraph" height="250" width="850" style="display: block"></canvas>
         </div>
+        <div class="chart-container" style="padding-top: 120px">
+            <canvas id="secondGraph" height="250" width="550"
+                style="display: block; width: 500px; height:250px;"></canvas>
+        </div>
+        <div class="chart-container" style="padding-top: 120px">
+            <canvas id="thirdGraph" height="250" width="550"
+                style="display: block; width: 500px; height:250px;"></canvas>
+        </div>
+    </div>
 
-        <button onclick="onDownloadReport()"> Download Report </button>
+    <div class="container-button">
+        <button onclick="onDownloadReport()" style="  background-color: red; border: none;color: white;
+        padding: 15px 32px; text-align: center; text-decoration: none;
+        display: inline-block; font-size: 16px;"> Download Report</button>
+    </div>
 
-        <script>
-            function onDownloadReport() {
-                const endPointReport = '/report';
 
-                try {
-                    window.location.assign(endPointReport);
-                } catch (error) {
-                    alert(`Problem to download the report of the endpoint: ${endPointReport}`)
-                }
+    <script>
+        function onDownloadReport() {
+            const endPointReport = '/report';
+
+            try {
+                window.location.assign(endPointReport);
+            } catch (error) {
+                alert(`Problem to download the report of the endpoint: ${endPointReport}`)
             }
+        }
 
-            function extractFields(data, local, initSlice, finalSlice) {
-                let extractField = [];
-                if (local === 1) {
-                    data.slice(initSlice, finalSlice).forEach((key) => {
-                        extractField.push(key['counter']);
-                    });
-                    return extractField;
-                } else if (local === 2) {
-                    extractField.push(data['counter'])
-                    return extractField;
-                } else if (local == 3) {
-                    data.slice(initSlice, finalSlice).forEach((key) => {
-                        extractField.push(key['Description']);
-                    });
-                    return extractField;
-                }
-
-            }
-            fetch('http://localhost:3000/db').then(res => {
-                return res.json();
-            }).then(logData => {
-                console.log(logData);
-                const ctx = document.getElementById("mainGraph").getContext('2d');
-                console.log(Chart.defaults.scale.ticks);
-                const myBarChart = new Chart(ctx, {
-
-                    type: 'bar',
-                    data: {
-                        labels: extractFields(logData, 3, 0, 36),
-                        datasets: [{
-                            label: extractFields(logData, 2, 0, 36),
-                            data: extractFields(logData, 1, 0, 36),
-                            backgroundColor: random_rgba(logData.length),
-                            borderWidth: 2,
-                            borderColor: '#777',
-                        }]
+        function constructGraph(graph, logData, initialSlice, finaSlice) {
+            const myBarChart = new Chart(graph, {
+                type: 'bar',
+                data: {
+                    labels: extractFields(logData, 3, initialSlice, finaSlice),
+                    datasets: [{
+                        label: "Quantidade de Acessos" + extractFields(logData, 2, initialSlice, finaSlice),
+                        data: extractFields(logData, 1, initialSlice, finaSlice),
+                        backgroundColor: random_rgba(logData.length),
+                        borderWidth: 2,
+                        borderColor: '#777',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: 'Número de Acessos por Páginas',
+                        fontSize: 35
                     },
-                    options: {
-                        title: {
-                            display: true,
-                            text: 'Número de Acessos por Páginas (Superior a 500)',
-                            fontSize: 35
-                        },
-                        legend: {
-                            display: false,
-                        },
-                        scales: {
-                            xAxes: [{
-                                stacked: true
-                            }],
-                            yAxes: [{
-                                stacked: true
-                            }]
-                        }
+                    legend: {
+                        display: false,
+                    },
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                beginAtZero: false
+                            },
+                            stacked: true
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: false
+                            },
+                            stacked: true
+                        }]
                     }
-                });
-            })
-
-            function random_rgba(l) {
-                let arr = [];
-                for (let index = 0; index < l; index++) {
-                    var o = Math.round, r = Math.random, s = 255;
-                    arr = [...arr, 'rgba(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ',' + r().toFixed(1) + ')'];
                 }
-                return arr;
+            });
+        }
+
+        function extractFields(data, local, initSlice, finalSlice) {
+            let extractField = [];
+            if (local === 1) {
+                data.slice(initSlice, finalSlice).forEach((key) => {
+                    extractField.push(key['counter']);
+                });
+                return extractField;
+            } else if (local === 2) {
+                extractField.push(data['counter'])
+                return extractField;
+            } else if (local == 3) {
+                data.slice(initSlice, finalSlice).forEach((key) => {
+                    extractField.push(key['Description']);
+                });
+                return extractField;
             }
 
-        </script>
+        }
+
+        fetch('http://localhost:3000/db').then(res => {
+            return res.json();
+        }).then(logData => {
+            console.log(logData);
+            const graphs = document.querySelectorAll("canvas");
+            graphs.forEach(graph => {
+                if (graph.id === "mainGraph") {
+                    constructGraph(graph, logData, 0, 11);
+                }
+                else if (graph.id === "secondGraph") {
+                    constructGraph(graph, logData, 11, 35);
+                } else {
+                    constructGraph(graph, logData, 73, 145)
+                }
+            });
+        })
+
+        function random_rgba(l) {
+            let arr = [];
+            for (let index = 0; index < l; index++) {
+                var o = Math.round, r = Math.random, s = 255;
+                arr = [...arr, 'rgba(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ',' + r().toFixed(1) + ')'];
+            }
+            return arr;
+        }
+
+    </script>
 </body>
 
 </html>
