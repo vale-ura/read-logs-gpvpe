@@ -2,11 +2,17 @@
   "name": "read-logs-gpvpe",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "start": "node ./src/index.js",
+    "start": "node ./src/read-log-server/index.js",
     "test": "node ./test/test-connection-db.js",
-    "api:start": "nodemon ./api/api.js"
+    "api:start": "nodemon ./src/api/api.js"
+  },
+  "exclude": {
+    "exclude": [
+      "./src/api/report.js",
+      "./src/api/index.js"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -23,6 +29,8 @@
     "nodemon": "^1.19.1",
     "papaparse": "^5.0.1",
     "verbal-expressions": "^1.0.2",
-    "voca": "^1.4.0"
+    "voca": "^1.4.0",
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.7"
   }
 }

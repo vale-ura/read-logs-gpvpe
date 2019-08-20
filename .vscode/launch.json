@@ -8,13 +8,13 @@
             "type": "node",
             "request": "launch",
             "name": "Launch API",
-            "program": "${workspaceFolder}/api/api.js"
+            "program": "${workspaceFolder}/src/api/api.js"
         },
         {
             "type": "node",
             "request": "launch",
             "name": "Launch SCRIPT",
-            "program": "${workspaceFolder}/src/index.js"
+            "program": "${workspaceFolder}/src/read-log-server/index.js"
         },
         {
             "type": "node",

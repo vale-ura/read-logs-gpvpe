@@ -11,8 +11,11 @@ const DB_EXTRACTED_SERVER = 'db/db.json';
 const DB_NAMES = 'db/dbNames.json';
 const OUTPUT_REPORT = 'output-files/pages.xlsx';
 
-app.set('views', __dirname + '/../view');
+app.set('views', `${process.cwd()}\\view`);
 app.engine('html', ejs.renderFile);
+
+console.log(app.get('views'));
+
 
 app.get('/db', async (req, res) => {
     const dbParsed = await consolidateDataAndCreateDataStruct(DB_EXTRACTED_SERVER, DB_NAMES);
@@ -22,7 +25,6 @@ app.get('/db', async (req, res) => {
 app.get('/report', async (req, res) => {
     const dbParsed = await consolidateDataAndCreateDataStruct(DB_EXTRACTED_SERVER, DB_NAMES);
     const report = await onGenerateReport(dbParsed);
-    console.log(__dirname, __filename);
     res.sendFile(report, {root: process.cwd()});
 })
 
