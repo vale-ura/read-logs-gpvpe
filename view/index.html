@@ -29,7 +29,7 @@
             <div class="navbar-item">
                 <div class="field is-grouped">
                     <p class="control">
-                        <a class="button is-info is-rounded"  onclick="onDownloadReport()">
+                        <a class="button is-info is-rounded"  onclick="onDownloadReport('/report/unused')">
                             <span class="icon">
                                 <i class="fas fa-download"></i>
                             </span>
@@ -37,7 +37,7 @@
                         </a>
                     </p>
                     <p class="control">
-                        <a class="button is-primary is-rounded" onclick="onDownloadReport()">
+                        <a class="button is-primary is-rounded" onclick="onDownloadReport('/report/access')">
                             <span class="icon">
                                 <i class="fas fa-download"></i>
                             </span>
@@ -77,13 +77,11 @@
     </section>
 
     <script>
-        function onDownloadReport() {
-            const endPointReport = '/report/unused';
-
+        function onDownloadReport(path) {
             try {
-                window.location.assign(endPointReport);
+                window.location.assign(path);
             } catch (error) {
-                alert(`Problem to download the report of the endpoint: ${endPointReport}`)
+                alert(`Problem to download the report of the endpoint: ${path}`)
             }
         }
         function constructGraph(graph, logData, initialSlice, finaSlice, title, typeBar) {
