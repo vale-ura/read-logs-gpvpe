@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+    <title>Presentatio DATA</title>
+</head>
+
+<body>
+
+    <div class="container" style="padding-top: 100px;">
+        <div class="chart-container">
+            <canvas id="mainGraph" height="250" width="850" style="display: block"></canvas>
+        </div>
+        <div class="chart-container" style="padding-top: 120px">
+            <canvas id="secondGraph" height="250" width="550"
+                style="display: block; width: 500px; height:250px;"></canvas>
+        </div>
+        <div class="chart-container" style="padding-top: 120px">
+            <canvas id="thirdGraph" height="250" width="550"
+                style="display: block; width: 500px; height:250px;"></canvas>
+        </div>
+    </div>
+
+    <div class="container-button">
+        <button onclick="onDownloadReport()" style="  background-color: red; border: none;color: white;
+        padding: 15px 32px; text-align: center; text-decoration: none;
+        display: inline-block; font-size: 16px; cursor: pointer;"> Download Report</button>
+    </div>
+
+
+    <script>
+        function onDownloadReport() {
+            const endPointReport = '/report';
+
+            try {
+                window.location.assign(endPointReport);
+            } catch (error) {
+                alert(`Problem to download the report of the endpoint: ${endPointReport}`)
+            }
+        }
+
+        function constructGraph(graph, logData, initialSlice, finaSlice) {
+            const myBarChart = new Chart(graph, {
+                type: 'bar',
+                data: {
+                    labels: extractFields(logData, 3, initialSlice, finaSlice),
+                    datasets: [{
+                        label: "Quantidade de Acessos" + extractFields(logData, 2, initialSlice, finaSlice),
+                        data: extractFields(logData, 1, initialSlice, finaSlice),
+                        backgroundColor: random_rgba(logData.length),
+                        borderWidth: 2,
+                        borderColor: '#777',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: 'Número de Acessos por Páginas',
+                        fontSize: 35
+                    },
+                    legend: {
+                        display: false,
+                    },
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                beginAtZero: false
+                            },
+                            stacked: true
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: false
+                            },
+                            stacked: true
+                        }]
+                    }
+                }
+            });
+        }
+
+        function extractFields(data, local, initSlice, finalSlice) {
+            let extractField = [];
+            if (local === 1) {
+                data.slice(initSlice, finalSlice).forEach((key) => {
+                    extractField.push(key['counter']);
+                });
+                return extractField;
+            } else if (local === 2) {
+                extractField.push(data['counter'])
+                return extractField;
+            } else if (local == 3) {
+                data.slice(initSlice, finalSlice).forEach((key) => {
+                    extractField.push(key['Description']);
+                });
+                return extractField;
+            }
+
+        }
+
+        fetch('http://localhost:3000/db').then(res => {
+            return res.json();
+        }).then(logData => {
+            console.log(logData);
+            const graphs = document.querySelectorAll("canvas");
+            graphs.forEach(graph => {
+                if (graph.id === "mainGraph") {
+                    constructGraph(graph, logData, 0, 11);
+                }
+                else if (graph.id === "secondGraph") {
+                    constructGraph(graph, logData, 11, 35);
+                } else {
+                    constructGraph(graph, logData, 73, 145)
+                }
+            });
+        })
+
+        function random_rgba(l) {
+            let arr = [];
+            for (let index = 0; index < l; index++) {
+                var o = Math.round, r = Math.random, s = 255;
+                arr = [...arr, 'rgba(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ',' + r().toFixed(1) + ')'];
+            }
+            return arr;
+        }
+
+    </script>
+</body>
+
+</html>
