@@ -7,7 +7,7 @@ const low = require('lowdb')
 
 const CODIFICATION = "utf8";
 const EXPRESSION_TO_MATCH_NAME_FILES = '(?:(((?:^[0-9]+)[uUSsi])|^bct)(?:[0-9]+)|(?:^[0-9]+))[\\s]?(.log)';
-const INITIAL_DATE = newToLocaleString('01/01/2019');
+const INITIAL_DATE = newToLocaleString(`${process.argv[3]}`);
 const FINAL_DATE = Date.now();
 const ACCEPTED_VALUE_COLUMNS = [
     'VISIT'

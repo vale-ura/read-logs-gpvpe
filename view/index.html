@@ -68,7 +68,7 @@
                 alert(`Problem to download the report of the endpoint: ${endPointReport}`)
             }
         }
-        function constructGraph(graph, logData, initialSlice, finaSlice,title,typeBar) {
+        function constructGraph(graph, logData, initialSlice, finaSlice, title, typeBar) {
             const myBarChart = new Chart(graph, {
                 type: typeBar,
                 data: {
@@ -135,12 +135,12 @@
             const graphs = document.querySelectorAll("canvas");
             graphs.forEach(graph => {
                 if (graph.id === "mainGraph") {
-                    constructGraph(graph, logData, 0, 11,"Número de Acessos ( > 5000 )","bar");
+                    constructGraph(graph, logData, 0, 11, "Número de Acessos ( > 5000 )", "bar");
                 }
                 else if (graph.id === "secondGraph") {
-                    constructGraph(graph, logData, 11, 36,"Número de Acessos ( Entre 500 e 5000 )","horizontalBar");
+                    constructGraph(graph, logData, 11, 36, "Número de Acessos ( Entre 500 e 5000 )", "horizontalBar");
                 } else {
-                    constructGraph(graph, logData, 36, 72,"Número de Acessos ( Entre 100 e 500 )","horizontalBar")
+                    constructGraph(graph, logData, 36, 72, "Número de Acessos ( Entre 100 e 500 )", "horizontalBar")
                 }
             });
         })

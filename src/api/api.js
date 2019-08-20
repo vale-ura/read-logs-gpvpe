@@ -25,11 +25,11 @@ app.get('/db', async (req, res) => {
 app.get('/report', async (req, res) => {
     const dbParsed = await consolidateDataAndCreateDataStruct(DB_EXTRACTED_SERVER, DB_NAMES);
     const report = await onGenerateReport(dbParsed);
-    res.sendFile(report, {root: process.cwd()});
+    res.sendFile(report, { root: process.cwd() });
 })
 
 app.get('/', async (req, res) => {
-    res.render('index.html')
+    res.render('index.html');
 })
 
 async function onGenerateReport(dbParsed) {
@@ -44,7 +44,7 @@ async function onGenerateReport(dbParsed) {
 
     console.log(reportContentStruct);
 
-    await report.generateReport({ header, content: reportContentStruct, sheet: "FY", outputFile: OUTPUT_REPORT});
+    await report.generateReport({ header, content: reportContentStruct, sheet: "FY", outputFile: OUTPUT_REPORT });
     return OUTPUT_REPORT;
 }
 
@@ -72,18 +72,9 @@ function createDataStructToReportSupport(params) {
 async function onCreateDataStruct(...db) {
     const [dbExtractServer, dbNames] = db;
     // console.log(dbNames);
-    const allUsersData = [];
-    const allPages = [];
-
-
-    Object.keys(dbExtractServer).map(Key => dbExtractServer[Key]).forEach((valueOfExtractedObject) => {
-        allUsersData.push(...valueOfExtractedObject);
-
-    });
-    Object.keys(dbNames).map(Key => dbNames[Key]).forEach((valueOfExtractedObject) => {
-        allPages.push(...valueOfExtractedObject);
-    })
-    // Construction map.set(key,value);
+    const allUsersData = objectValues(dbExtractServer);
+    const allPages = objectValues(dbNames);
+    
     let map = new Map();
     allUsersData.forEach(log => {
         log.transaction = log.transaction.trim();
@@ -115,6 +106,23 @@ async function onCreateDataStruct(...db) {
         } else
             return 0;
     })
+}
+
+async function onGenerateDifferenceBetweenDataBases() {
+
+}
+
+function objectValues(object) {
+    return flatArray(Object.values(object));
+}
+
+function flatArray(arr) {
+    const newArr = [];
+    arr.forEach((value) => {
+        if (value instanceof Array) { newArr.push(...value) }
+        else { newArr.push(value) }
+    });
+    return newArr;
 }
 
 async function readAndParse(file) {
