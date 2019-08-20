@@ -14,23 +14,41 @@
 </head>
 
 <body>
-    <nav class="navbar is-white">
+    <nav class="navbar is-white is-fixed-top">
+        <div class="navbar-brand">
+            <article class="message is-dark">
+                <div class="message-header">
+                    <span class="mdi-information-outline" style="padding-right: 8px;">
+                        <i class="fas fa-info-circle"></i>
+                    </span>
+                    <p>Dados Consolidados: 28/01/2018 - 20/08/2019</p>
+                </div>
+            </article>
+        </div>
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="field is-grouped">
                     <p class="control">
-                        <a class="button is-primary is-rounded">
+                        <a class="button is-info is-rounded"  onclick="onDownloadReport()">
                             <span class="icon">
                                 <i class="fas fa-download"></i>
                             </span>
-                            <span onclick="onDownloadReport()">Download Report</span>
+                            <span>Export Report</span>
+                        </a>
+                    </p>
+                    <p class="control">
+                        <a class="button is-primary is-rounded" onclick="onDownloadReport()">
+                            <span class="icon">
+                                <i class="fas fa-download"></i>
+                            </span>
+                            <span>Download Report</span>
                         </a>
                     </p>
                 </div>
             </div>
         </div>
     </nav>
-    <section class="hero is-white is-fullheight">
+    <section class="hero is-white is-fullheight-with-navbar" style="padding-top:25px">
         <div class="hero-body">
             <div class="container">
                 <p class="title">
@@ -43,7 +61,7 @@
         <div class="hero-body">
             <div class="container">
                 <p class="title">
-                    <canvas id="secondGraph" height="250" width="550"></canvas>
+                    <canvas id="secondGraph" height="250" width="450"></canvas>
                 </p>
             </div>
         </div>
@@ -135,12 +153,12 @@
             const graphs = document.querySelectorAll("canvas");
             graphs.forEach(graph => {
                 if (graph.id === "mainGraph") {
-                    constructGraph(graph, logData, 0, 11, "Número de Acessos ( > 5000 )", "bar");
+                    constructGraph(graph, logData, 0, 18, "Número de Acessos ( Superior 5000 )", "bar");
                 }
                 else if (graph.id === "secondGraph") {
-                    constructGraph(graph, logData, 11, 36, "Número de Acessos ( Entre 500 e 5000 )", "horizontalBar");
+                    constructGraph(graph, logData, 18, 62, "Número de Acessos ( Entre 500 e 5000 )", "horizontalBar");
                 } else {
-                    constructGraph(graph, logData, 36, 72, "Número de Acessos ( Entre 100 e 500 )", "horizontalBar")
+                    constructGraph(graph, logData, 63, 107, "Número de Acessos ( Entre 150 e 500 )", "horizontalBar")
                 }
             });
         })
@@ -153,7 +171,6 @@
             }
             return arr;
         }
-
     </script>
 </body>
 
