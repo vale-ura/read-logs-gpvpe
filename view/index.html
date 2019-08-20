@@ -7,24 +7,56 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
     <title>Presentatio DATA</title>
 </head>
 
 <body>
-
-    <div class="container px-2">
-        <canvas id="mainGraph" height="250" width="850" style="display: block"></canvas>
-        <canvas id="secondGraph" height="250" width="550" style="display: block; width: 500px; height:250px;"></canvas>
-        <canvas id="thirdGraph" height="250" width="550" style="display: block; width: 500px; height:250px;"></canvas>
-    </div>
-
-
-    <div class="container-button">
-        <button onclick="onDownloadReport()" style="  background-color: red; border: none;color: white;
-        padding: 15px 32px; text-align: center; text-decoration: none;
-        display: inline-block; font-size: 16px; cursor: pointer;"> Download Report</button>
-    </div>
-
+    <nav class="navbar is-white">
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="field is-grouped">
+                    <p class="control">
+                        <a class="button is-primary is-rounded">
+                            <span class="icon">
+                                <i class="fas fa-download"></i>
+                            </span>
+                            <span onclick="onDownloadReport()">Download Report</span>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="hero is-white is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <p class="title">
+                    <canvas id="mainGraph" height="250" width="550"></canvas>
+                </p>
+            </div>
+        </div>
+    </section>
+    <section class="hero is-white is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <p class="title">
+                    <canvas id="secondGraph" height="250" width="550"></canvas>
+                </p>
+            </div>
+        </div>
+    </section>
+    <section class="hero is-white is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <p class="title">
+                    <canvas id="thirdGraph" height="250" width="500"></canvas>
+                </p>
+            </div>
+        </div>
+    </section>
 
     <script>
         function onDownloadReport() {
@@ -36,10 +68,9 @@
                 alert(`Problem to download the report of the endpoint: ${endPointReport}`)
             }
         }
-
-        function constructGraph(graph, logData, initialSlice, finaSlice) {
+        function constructGraph(graph, logData, initialSlice, finaSlice,title,typeBar) {
             const myBarChart = new Chart(graph, {
-                type: 'bar',
+                type: typeBar,
                 data: {
                     labels: extractFields(logData, 3, initialSlice, finaSlice),
                     datasets: [{
@@ -54,7 +85,7 @@
                     responsive: true,
                     title: {
                         display: true,
-                        text: 'Número de Acessos por Páginas',
+                        text: title,
                         fontSize: 35
                     },
                     legend: {
@@ -104,12 +135,12 @@
             const graphs = document.querySelectorAll("canvas");
             graphs.forEach(graph => {
                 if (graph.id === "mainGraph") {
-                    constructGraph(graph, logData, 0, 11);
+                    constructGraph(graph, logData, 0, 11,"Número de Acessos ( > 5000 )","bar");
                 }
                 else if (graph.id === "secondGraph") {
-                    constructGraph(graph, logData, 11, 35);
+                    constructGraph(graph, logData, 11, 36,"Número de Acessos ( Entre 500 e 5000 )","horizontalBar");
                 } else {
-                    constructGraph(graph, logData, 73, 145)
+                    constructGraph(graph, logData, 36, 72,"Número de Acessos ( Entre 100 e 500 )","horizontalBar")
                 }
             });
         })

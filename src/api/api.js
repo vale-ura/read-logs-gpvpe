@@ -44,7 +44,7 @@ async function onGenerateReport(dbParsed) {
 
     console.log(reportContentStruct);
 
-    await report.generateReport({ header, content: reportContentStruct, sheet: "Pages report of the Gpv pelletizing", outputFile: OUTPUT_REPORT});
+    await report.generateReport({ header, content: reportContentStruct, sheet: "FY", outputFile: OUTPUT_REPORT});
     return OUTPUT_REPORT;
 }
 
